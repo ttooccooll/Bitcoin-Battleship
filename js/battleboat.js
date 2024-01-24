@@ -24,6 +24,7 @@ CONST.TYPE_SUNK = 4; // 4 = sunk ship
 const splashSound = new Audio("splash.mp3");
 const exSound = new Audio("explosion.mp3");
 const startSound = new Audio("start.mp3");
+exSound.volume = 0.3;
 
 // TODO: Make this better OO code. CONST.AVAILABLE_SHIPS should be an array
 //       of objects rather than than two parallel arrays. Or, a better
@@ -206,7 +207,9 @@ Game.prototype.shoot = function(x, y, targetPlayer) {
 	} else if (targetGrid.isUndamagedShip(x, y)) {
 		// update the board/grid
 		targetGrid.updateCell(x, y, 'hit', targetPlayer);
-		exSound.play();
+		const newExSound = new Audio("explosion.mp3");
+		newExSound.volume = 0.3;
+		newExSound.play();
 		// IMPORTANT: This function needs to be called _after_ updating the cell to a 'hit',
 		// because it overrides the CSS class to 'sunk' if we find that the ship was sunk
 		targetFleet.findShipByCoords(x, y).incrementDamage(); // increase the damage
@@ -214,7 +217,8 @@ Game.prototype.shoot = function(x, y, targetPlayer) {
 		return CONST.TYPE_HIT;
 	} else {
 		targetGrid.updateCell(x, y, 'miss', targetPlayer);
-		splashSound.play();
+		const newSplashSound = new Audio("splash.mp3");
+		newSplashSound.play();
 		this.checkIfWon();
 		return CONST.TYPE_MISS;
 	}
