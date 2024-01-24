@@ -383,6 +383,7 @@ Game.prototype.restartGame = function(e) {
 	document.getElementById('restart-sidebar').setAttribute('class', 'hidden');
 	self.resetFogOfWar();
 	self.init();
+	startSound.play();
 };
 // Debugging function used to place all ships and just start
 Game.prototype.placeRandomly = function(e){
@@ -902,20 +903,15 @@ Tutorial.prototype.nextStep = function() {
 			this.currentStep++;
 			break;
 		case 2:
-			computerGrid.setAttribute('class', computerGrid.getAttribute('class') + ' highlight');
+			var computerClasses = computerGrid.getAttribute('class');
+			document.getElementById('step2').removeAttribute('class');
+			computerClasses = computerClasses.replace(' highlight', '');
+			computerGrid.setAttribute('class', computerClasses);
 			document.getElementById('step3').setAttribute('class', 'current-step');
 			this.currentStep++;
 			break;
 		case 3:
-			var computerClasses = computerGrid.getAttribute('class');
 			document.getElementById('step3').removeAttribute('class');
-			computerClasses = computerClasses.replace(' highlight', '');
-			computerGrid.setAttribute('class', computerClasses);
-			document.getElementById('step4').setAttribute('class', 'current-step');
-			this.currentStep++;
-			break;
-		case 4:
-			document.getElementById('step4').removeAttribute('class');
 			this.currentStep = 6;
 			this.showTutorial = false;
 			localStorage.setItem('showTutorial', false);
