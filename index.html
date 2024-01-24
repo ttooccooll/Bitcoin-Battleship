@@ -3,11 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,maximum-scale=1">
-	<title>Battleboat.js - A JavaScript AI that beats humans at battleship.</title>
-	<meta name="description" content="Battleboat.js: A JavaScript AI that beats humans at battleship.">
-	<meta name="keywords" content="Battleboat.js, battleship, AI, robot, JavaScript">
+	<title>Bitcoin Battleship</title>
+	<meta name="description" content="Bitcoin Battleship">
+	<meta name="keywords" content="Bitcoin Battleship">
 	<meta name="google" content="notranslate">
-	<link rel="icon" type="image/png" href="img/favicon.png" />
+	<link rel="icon" type="image/png" href="img/grumpy.png" />
 	<link rel="image_src" href="img/apple-touch-icon-144x144-precomposed.png" />
 	<link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
 	<link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png" />
@@ -15,41 +15,30 @@
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png" />
-
-	<link rel="author" href="https://plus.google.com/+BillMei" />
-	<link rel="publisher" href="https://plus.google.com/+BillMei" />
-
 	<link href="css/styles.css"  rel="stylesheet" media="all"/>
 </head>
 <body>
 <div class="container">
-	<h1>Battleboat.js</h1>
-	<p class="tagline">A JavaScript AI that beats humans at battleship.</p>
-	<p>How to play</p>
+	<h1>Bitcoin Battleship</h1>
+	<p>You are the Bitcoin network. You must sink the traditional bank's central point of failure before it sink's your decentralized network. These rules demostrate the difference in security between the Bitcoin network and traditional banking. Let's see how things play out...</p>
 	<ol class="instructions">
-		<li id="step1">Select your ships from the left-hand side</li>
-		<li id="step2">Place your ships on your map</li>
-		<li id="step3">Click on the cells of the enemy's map<br>
-		to find and destroy all five enemy ships</li>
-		<li id="step4">The computer will fire on your ships<br>
-		immediately after you fire on its ships.</li>
+		<li id="step1">Distribute your nodes throughout the world</li>
+		<li id="step2">Click on the cells of the traditional bank's map<br>
+		to find and destroy the central point of failure</li>
+		<li id="step3">The bank will take your nodes offline<br>
+		immediately after you fire on its infrastructure</li>
 	</ol>
 	<div class="game-container">
 		<div id="restart-sidebar" class="hidden">
 			<h2>Try Again</h2>
 			<button id="restart-game">Restart Game</button>
 		</div><div id="roster-sidebar">
-			<h2>Place Your Ships</h2>
+			<h2>Place Your Nodes</h2>
 			<ul class="fleet-roster">
-				<li id="patrolboat">Patrol Boat</li>
-				<li id="submarine">Submarine</li>
-				<li id="destroyer">Destroyer</li>
-				<li id="battleship">Battleship</li>
-				<li id="carrier">Aircraft Carrier</li>
 			</ul>
-			<button id="rotate-button" data-direction="0">Rotate Ship</button>
+			<button id="rotate-button" data-direction="0"></button>
 			<button id="start-game" class="hidden">Start Game</button>
-			<button id="place-randomly" class="hidden">Place Randomly and Start</button>
+			<button id="place-randomly">Distribute Nodes Throughout the World</button>
 		</div><div id="stats-sidebar">
 			<h2>Stats</h2>
 			<p><strong>Games Won</strong></p>
@@ -59,19 +48,33 @@
 			<button id="reset-stats">Reset Stats</button>
 			<button id="prob-heatmap" class="hidden">Show Probability Heatmap</button>
 		</div><div class="grid-container">
-			<h2>Your Fleet</h2>
+			<h2>Bitcoin</h2>
 			<div class="grid human-player"><span class="no-js">Please enable JavaScript to play this game</span></div>
 		</div><div class="grid-container">
-			<h2>Enemy Fleet</h2>
+			<h2>Big Bank</h2>
 			<div class="grid computer-player"><span class="no-js">Please enable JavaScript to play this game</span></div>
 		</div>
 	</div>
 	
-	<p>Created by <a href="https://billmei.net">Bill Mei</a>.</p>
-	<p>This project is open source <a href="https://github.com/billmei/battleboat">on GitHub</a>.</p>
-</div>
+	<p>Learn more about <a href="https://herecomesbitcoin.org" target="_blank">Bitcoin</a>.</p>
+	<p style="margin: -15px 0 0 0;">Learn more about <a href="https://stacker.news/jasonb" target="_blank">me</a>.</p>
+	
+	<button id="openModalBtn" style="margin: 5px 0 -100px 0;">an FAQ made just for you</button>
 
-<a href="https://github.com/billmei/battleboat"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+	<div id="faqModal" class="modal">
+	  <div class="modal-content">
+		<span class="close" id="closeModalBtn">&times;</span>
+		<h2>Fully Anticipated Queries</h2>
+		<p>Q: Is it even possible to lose?</p>
+		<p>A: Yes, if the big bank can somehow take out all 98 nodes before you find the central point of failure, then the bank wins.</p>
+		<p>Q: Do you want banks to fail?</p>
+		<p>A: Heavens no! That always means significant human suffering whether or not they get a bailout. However, this simulation demonstrates the difference between the safety provided by a bank or any other centralized institution (like a crypto exchange or the government) and a decentralized network like Bitcoin.</p>
+		<p>Q: Got any other games?</p>
+		<p>A: Yeah, check out <a href="https://national-debt-snake.vercel.app" target="_blank">National Debt Snake</a>.</p>
+	  </div>
+	</div>
+	
+</div>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-MDXLY4NGC1"></script>
 <script>

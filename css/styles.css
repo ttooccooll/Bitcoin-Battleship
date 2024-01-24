@@ -1,18 +1,30 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700);
+@font-face {
+	font-family: MyFont;
+	src: url(BlackOpsOne-Regular.ttf);
+}
 html, body {
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background-color: #ddd;
-	min-width: 860px;
-}
+	background: 
+	  linear-gradient(to right, black, transparent, #14334b, transparent, black),
+	  url('../img/bit.png') left top no-repeat,
+	  url('../img/bank.png') right top no-repeat;
+	background-size: 100% 100%, 50% 100%, 50% 100%;
+	background-position: center, left, right;
+	overflow: auto;
+  }
+  
 h1, h2, h3, h4, h5, h6, p, li, span {
-	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-	color: #222222;
+	font-family: 'MyFont';
+	color: darkorange;
+	text-shadow: 1px 1px 5px #14334b, -1px -1px 8px #14334b, 1px -1px 8px #14334b, -1px 1px 8px #14334b;
 }
 a {
-	color: #222222;
+	color: #7baebe;
+	text-shadow: 1px 1px 5px #14334b, -1px -1px 8px #14334b, 1px -1px 8px #14334b, -1px 1px 8px #14334b;
 	font-weight: bold;
+	text-decoration: none;
 }
 	a:hover {
 		text-decoration: none;
@@ -23,14 +35,15 @@ div {
 }
 
 button {
-	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+	font-family: 'MyFont';
 	font-size: 1.2em;
-	color: #EEEEEE;
+	color: orange;
 	background-color: #25567B;
 	border: none;
 	margin: 1em auto 0 auto;
 	padding: 10px;
 	border-radius: 5px;
+	display: inline-block;
 }
 	button:hover {
 		cursor: pointer;
@@ -39,20 +52,41 @@ button {
 	button:active {
 		background-color: #99C2E1;
 	}
-	#start-game,
-	#place-randomly,
+	#rotate-button {
+		height: 0px;
+		background-color: transparent;
+	}
+	#place-randomly {
+		font-family: 'MyFont';
+		font-size: 1.2em;
+		color: orange;
+		background-color: #25567B;
+		border: none;
+		padding: 10px;
+		border-radius: 5px;
+		display: inline-block;
+		margin-left: -4%;
+	}
 	#restart-game {
 		position: relative;
 		color: #FFFFFF;
 		background-color: #FF9200;
 	}
-		#start-game:hover,
-		#place-randomly:hover,
+		#place-randomly:hover {
+			cursor: pointer;
+			background-color: #ffffff;
+		}
 		#restart-game:hover {
 			background-color: #FFB655;
 		}
-		#start-game:active,
-		#place-randomly:active,
+		#rotate-button:hover {
+			height: 0px;
+			background-color: transparent;
+			cursor: default;
+		}
+		#place-randomly:active {
+			background-color: #99C2E1;
+		}
 		#restart-game:active {
 			background-color: #FFCE8E;
 		}
@@ -71,9 +105,6 @@ button {
 	background-position: -9999px -9999px;
 }
 
-.tagline {
-	margin-bottom: 2em;
-}
 	.instructions {
 		width: auto;
 		display: inline-block;
@@ -90,15 +121,18 @@ button {
 	position: relative;
 }
 	#roster-sidebar, #stats-sidebar, #restart-sidebar {
-		width: 150px;
-		padding: 20px;
+		width: 130px;
+		padding: 10px;
 		margin: 0;
-		background-color: #EEEEEE;
+		background: #0e345e;
+		box-shadow: 10px 10px 10px #0e345e, -10px 10px 10px #0e345e, 10px -10px 10px #0e345e, -10px -10px 10px #0e345e;
 		position: absolute;
-		top: 4.5em;
-		-webkit-border-radius: 5px;
-		-moz-border-radius: 5px;
-		border-radius: 5px;
+		top: 7em;
+		-webkit-border-radius: 15px;
+		-moz-border-radius: 15px;
+		border-radius: 15px;
+		text-align: center;
+		align-items: center;
 	}
 	#roster-sidebar, #restart-sidebar {
 		left: -200px;
@@ -107,40 +141,10 @@ button {
 		right: -200px;
 	}
 		#roster-sidebar h2, #stats-sidebar h2, #restart-sidebar h2 {
-			margin: 0 0 1em 0;
+			margin: 0 0 0 0;
 			text-align: center;
 		}
 
-.fleet-roster {
-	position: relative;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-.fleet-roster, button {
-	opacity: 1;
-	-webkit-transition: opacity 0.5s ease-out;
-	-o-transition: opacity 0.5s ease-out;
-	transition: opacity 0.5s ease-out;
-}
-	.fleet-roster li {
-		margin: 0.5em 0;
-	}
-		.fleet-roster li:hover {
-			color: #aaa;
-			cursor: pointer;
-		}
-	.fleet-roster .placing {
-		font-weight: bold;
-	}
-	.fleet-roster .placed {
-		visibility: hidden;
-		font-weight: bold;
-		opacity: 0;
-		-webkit-transition: all 0.2s ease-in;
-		-o-transition: all 0.2s ease-in;
-		transition: all 0.2s ease-in;
-	}
 	.invisible {
 		opacity: 0;
 		-webkit-transition: opacity 0.5s ease-in;
@@ -184,7 +188,7 @@ button {
 		font-size: 2em;
 	}
 	.grid-cell {
-		vertical-align: top; /*clears the vertical space between rows*/
+		vertical-align: top;
 		height: 40px;
 		width: 40px;
 		display: inline-block;
@@ -195,7 +199,7 @@ button {
 		border-radius: 2px;
 	}
 		.grid-cell:hover {
-			cursor: pointer; /* Fallback for IE */
+			cursor: pointer;
 			background-color: #66A3D2;
 		}
 		.human-player .grid-cell:hover {
@@ -205,28 +209,39 @@ button {
 			cursor: url('../img/crosshair.png') 16 16, crosshair;
 		}
 	.grid-ship, .human-player .grid-ship:hover {
-		background-color: #808080;
+		background: url('../img/grumpy.png');
+		background-position: contain;
+		background-color: #014761;
+		background-size: 100%;
+		overflow: auto;
 	}
 	.grid-miss, .grid-miss:hover, .human-player .grid-miss:hover {
-		background-color: #FFFFFF;
-		background-image: url('../img/cross-icon.png'); /* Fallback */
+		background-color: #1f7c98;
+		background-image: url('../img/cross-icon.png');
 		background-image: url('../img/cross-icon.svg');
 		background-position: center;
 		background-repeat: no-repeat;
 	}
 	.grid-hit, .grid-hit:hover, .human-player .grid-hit:hover {
-		background-color: #F60018;
-		background-image: url('../img/cross-icon.png'); /* Fallback */
+		background-color: rgba(255, 102, 0, 0.8);
+		background-image: url('../img/cross-icon.png');
 		background-image: url('../img/cross-icon.svg');
 		background-position: center;
 		background-repeat: no-repeat;
+		box-shadow: inset 0 0 10px 5px #F60018, inset 0 0 20px 1px #f6ee00, 0 0 10px 2px #F60018, 0 0 20px 1px #f6ee00;
 	}
 	.grid-sunk, .grid-sunk:hover, .human-player .grid-sunk:hover {
-		background-color: #222222;
-	}
+		background-color: rgba(255, 102, 0, 0.8);
+		background-image: url('../img/cross-icon.png');
+		background-image: url('../img/cross-icon.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		box-shadow: inset 0 0 10px 5px #F60018, inset 0 0 20px 1px #f6ee00, 0 0 10px 2px #F60018, 0 0 20px 1px #f6ee00;
+	  }
+	  
 
 .highlight {
-	overflow: visible; /* Bugfix for IE */
+	overflow: visible;
 }
 	.highlight:before {
 		content: "\2193";
@@ -317,3 +332,45 @@ button {
 		transform: translateY(0);
 	}
 }
+
+
+
+  .modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: url("../img/command.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 80vh;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	text-wrap: wrap;
+  }
+  
+  .close {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 20px;
+	cursor: pointer;
+  }
+  
+  button {
+	padding: 10px;
+	font-size: 16px;
+	cursor: pointer;
+  }
+  

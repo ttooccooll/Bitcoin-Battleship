@@ -1,28 +1,8 @@
 (function() {
-// Battleboat
-// Bill Mei, 2014
-// MIT License
-
-// Thanks to Nick Berry for the inspiration
-// http://www.datagenetics.com/blog/december32011/
-
-// TODO: Add a toggle that visualizes the probability grid via heatmap
-//       (scale a color via max and 0). The toggle only works once the user has
-//       finished placing their ships, or she can cheat easily by placing her ships
-//       outside the regions with the highest probability.
-
-console.log("%cHi! Thanks for checking out this game.%c Please be nice and don't " +
-	"hack the Stats object, I'm using Google Analytics to collect info about " +
-	"the AI's win/loss percentage in order to improve the bot, so if you do " +
-	"look around, I kindly ask that you don't give it bad data. Thanks :)",
-	"font-weight: bold; font-family: Tahoma, Helvetica, Arial, sans-serif;", "");
-console.log("Also, if you want to try stuff out, run %csetDebug(true);%c in the " +
-	"console before doing anything. You'll also get access to some cool features.",
-	"background: #000; color: #0f0; padding: 2px 5px; border-radius: 2px;", "");
 
 // Global Constants
 var CONST = {};
-CONST.AVAILABLE_SHIPS = ['carrier', 'battleship', 'destroyer', 'submarine', 'patrolboat'];
+CONST.AVAILABLE_SHIPS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92', '93', '94', '95', '96', '97', '98'];
 // You are player 0 and the computer is player 1
 // The virtual player is used for generating temporary ships
 // for calculating the probability heatmap
@@ -41,6 +21,9 @@ CONST.TYPE_SHIP = 1; // 1 = undamaged ship
 CONST.TYPE_MISS = 2; // 2 = water with a cannonball in it (missed shot)
 CONST.TYPE_HIT = 3; // 3 = damaged ship (hit shot)
 CONST.TYPE_SUNK = 4; // 4 = sunk ship
+const splashSound = new Audio("splash.mp3");
+const exSound = new Audio("explosion.mp3");
+const startSound = new Audio("start.mp3");
 
 // TODO: Make this better OO code. CONST.AVAILABLE_SHIPS should be an array
 //       of objects rather than than two parallel arrays. Or, a better
@@ -141,14 +124,7 @@ Stats.prototype.resetStats = function(e) {
 	Game.stats.updateStatsSidebar();
 };
 Stats.prototype.createUUID = function(len, radix) {
-	/*!
-	Math.uuid.js (v1.4)
-	http://www.broofa.com
-	mailto:robert@broofa.com
 
-	Copyright (c) 2010 Robert Kieffer
-	Dual licensed under the MIT and GPL licenses.
-	*/
 	var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split(''),
 	uuid = [], i;
 	radix = radix || chars.length;
@@ -189,15 +165,17 @@ Game.size = 10; // Default grid size is 10x10
 Game.gameOver = false;
 // Checks if the game is won, and if it is, re-initializes the game
 Game.prototype.checkIfWon = function() {
-	if (this.computerFleet.allShipsSunk()) {
-		alert('Congratulations, you win!');
+	if (this.computerFleet.oneShipSunk()) {
+		setTimeout(function() {
+		alert('The bank has been compromised at its central point of failure and is destroyed!');
+		}, 200);
 		Game.gameOver = true;
 		Game.stats.wonGame();
 		Game.stats.syncStats();
 		Game.stats.updateStatsSidebar();
 		this.showRestartSidebar();
 	} else if (this.humanFleet.allShipsSunk()) {
-		alert('Yarr! The computer sank all your ships. Try again.');
+		alert('The Bitcoin network crashes! Try again.');
 		Game.gameOver = true;
 		Game.stats.lostGame();
 		Game.stats.syncStats();
@@ -228,6 +206,7 @@ Game.prototype.shoot = function(x, y, targetPlayer) {
 	} else if (targetGrid.isUndamagedShip(x, y)) {
 		// update the board/grid
 		targetGrid.updateCell(x, y, 'hit', targetPlayer);
+		exSound.play();
 		// IMPORTANT: This function needs to be called _after_ updating the cell to a 'hit',
 		// because it overrides the CSS class to 'sunk' if we find that the ship was sunk
 		targetFleet.findShipByCoords(x, y).incrementDamage(); // increase the damage
@@ -235,6 +214,7 @@ Game.prototype.shoot = function(x, y, targetPlayer) {
 		return CONST.TYPE_HIT;
 	} else {
 		targetGrid.updateCell(x, y, 'miss', targetPlayer);
+		splashSound.play();
 		this.checkIfWon();
 		return CONST.TYPE_MISS;
 	}
@@ -262,7 +242,9 @@ Game.prototype.shootListener = function(e) {
 		}
 		// The AI shoots iff the player clicks on a cell that he/she hasn't
 		// already clicked on yet
+		setTimeout(function() {
 		self.robot.shoot();
+	}, 400);
 	} else {
 		Game.gameOver = false;
 	}
@@ -374,18 +356,7 @@ Game.prototype.placementMouseout = function(e) {
 		}
 	}
 };
-// Click handler for the Rotate Ship button
-Game.prototype.toggleRotation = function(e) {
-	// Toggle rotation direction
-	var direction = parseInt(e.target.getAttribute('data-direction'), 10);
-	if (direction === Ship.DIRECTION_VERTICAL) {
-		e.target.setAttribute('data-direction', '1');
-		Game.placeShipDirection = Ship.DIRECTION_HORIZONTAL;
-	} else if (direction === Ship.DIRECTION_HORIZONTAL) {
-		e.target.setAttribute('data-direction', '0');
-		Game.placeShipDirection = Ship.DIRECTION_VERTICAL;
-	}
-};
+
 // Click handler for the Start Game button
 Game.prototype.startGame = function(e) {
 	var self = e.target.self;
@@ -411,6 +382,7 @@ Game.prototype.restartGame = function(e) {
 };
 // Debugging function used to place all ships and just start
 Game.prototype.placeRandomly = function(e){
+	startSound.play();
 	e.target.removeEventListener(e.type, arguments.callee);
 	e.target.self.humanFleet.placeShipsRandomly();
 	e.target.self.readyToPlay = true;
@@ -471,9 +443,7 @@ Game.prototype.resetRosterSidebar = function() {
 	}
 	document.getElementById('rotate-button').removeAttribute('class');
 	document.getElementById('start-game').setAttribute('class', 'hidden');
-	if (DEBUG_MODE) {
-		document.getElementById('place-randomly').removeAttribute('class');
-	}
+	document.getElementById('place-randomly').removeAttribute('class');
 };
 Game.prototype.showRestartSidebar = function() {
 	var sidebar = document.getElementById('restart-sidebar');
@@ -683,15 +653,19 @@ Fleet.prototype.placeShipsRandomly = function() {
 	var shipCoords;
 	for (var i = 0; i < this.fleetRoster.length; i++) {
 		var illegalPlacement = true;
-	
-		// Prevents the random placement of already placed ships
-		if(this.player === CONST.HUMAN_PLAYER && Game.usedShips[i] === CONST.USED) {
-			continue;
+		
+		// Check if it's the computer player's turn to place ships
+		if (this.player === CONST.COMPUTER_PLAYER) {
+			// Prevents the random placement of already placed ships
+			if (Game.usedShips[i] === CONST.USED) {
+				continue;
+			}
 		}
+		
 		while (illegalPlacement) {
 			var randomX = Math.floor(Game.size * Math.random());
 			var randomY = Math.floor(Game.size * Math.random());
-			var randomDirection = Math.floor(2*Math.random());
+			var randomDirection = Math.floor(2 * Math.random());
 			
 			if (this.fleetRoster[i].isLegal(randomX, randomY, randomDirection)) {
 				this.fleetRoster[i].create(randomX, randomY, randomDirection, false);
@@ -701,14 +675,22 @@ Fleet.prototype.placeShipsRandomly = function() {
 				continue;
 			}
 		}
-		if (this.player === CONST.HUMAN_PLAYER && Game.usedShips[i] !== CONST.USED) {
+		
+		if (this.player === CONST.HUMAN_PLAYER) {
+			// Only update the grid and mark the ship as used for the human player
 			for (var j = 0; j < shipCoords.length; j++) {
 				this.playerGrid.updateCell(shipCoords[j].x, shipCoords[j].y, 'ship', this.player);
 				Game.usedShips[i] = CONST.USED;
 			}
 		}
+		
+		// Break out of the loop after placing the first ship for the computer player
+		if (this.player === CONST.COMPUTER_PLAYER) {
+			break;
+		}
 	}
 };
+
 // Finds a ship by location
 // Returns the ship object located at (x, y)
 // If no ship exists at (x, y), this returns null instead
@@ -759,6 +741,18 @@ Fleet.prototype.allShipsSunk = function() {
 	return true;
 };
 
+Fleet.prototype.oneShipSunk = function() {
+    for (var i = 0; i < this.fleetRoster.length; i++) {
+        // If one or more ships are sunk, then the method returns true.
+        if (this.fleetRoster[i].sunk === true) {
+            return true;
+        }
+    }
+    // If the loop completes without finding any ship with sunk equal to true, return false.
+    return false;
+};
+
+
 // Ship object
 // Constructor
 function Ship(type, playerGrid, player) {
@@ -768,23 +762,8 @@ function Ship(type, playerGrid, player) {
 	this.player = player;
 
 	switch (this.type) {
-		case CONST.AVAILABLE_SHIPS[0]:
-			this.shipLength = 5;
-			break;
-		case CONST.AVAILABLE_SHIPS[1]:
-			this.shipLength = 4;
-			break;
-		case CONST.AVAILABLE_SHIPS[2]:
-			this.shipLength = 3;
-			break;
-		case CONST.AVAILABLE_SHIPS[3]:
-			this.shipLength = 3;
-			break;
-		case CONST.AVAILABLE_SHIPS[4]:
-			this.shipLength = 2;
-			break;
 		default:
-			this.shipLength = 3;
+			this.shipLength = 1;
 			break;
 	}
 	this.maxDamage = this.shipLength;
@@ -892,12 +871,7 @@ Ship.prototype.create = function(x, y, direction, virtual) {
 			}
 		}
 	}
-	
 };
-// direction === 0 when the ship is facing north/south
-// direction === 1 when the ship is facing east/west
-Ship.DIRECTION_VERTICAL = 0;
-Ship.DIRECTION_HORIZONTAL = 1;
 
 // Tutorial Object
 // Constructor
@@ -924,18 +898,11 @@ Tutorial.prototype.nextStep = function() {
 			this.currentStep++;
 			break;
 		case 2:
-			document.getElementById('step2').removeAttribute('class');
-			var humanClasses = humanGrid.getAttribute('class');
-			humanClasses = humanClasses.replace(' highlight', '');
-			humanGrid.setAttribute('class', humanClasses);
-			this.currentStep++;
-			break;
-		case 3:
 			computerGrid.setAttribute('class', computerGrid.getAttribute('class') + ' highlight');
 			document.getElementById('step3').setAttribute('class', 'current-step');
 			this.currentStep++;
 			break;
-		case 4:
+		case 3:
 			var computerClasses = computerGrid.getAttribute('class');
 			document.getElementById('step3').removeAttribute('class');
 			computerClasses = computerClasses.replace(' highlight', '');
@@ -943,7 +910,7 @@ Tutorial.prototype.nextStep = function() {
 			document.getElementById('step4').setAttribute('class', 'current-step');
 			this.currentStep++;
 			break;
-		case 5:
+		case 4:
 			document.getElementById('step4').removeAttribute('class');
 			this.currentStep = 6;
 			this.showTutorial = false;
@@ -1369,3 +1336,29 @@ function setDebug(val) {
 	localStorage.setItem('showTutorial', 'false');
 	window.location.reload();
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+	const openModalBtn = document.getElementById('openModalBtn');
+	const faqModal = document.getElementById('faqModal');
+	const closeModalBtn = document.getElementById('closeModalBtn');
+	const startSound = new Audio('start.mp3');
+	const stopSound = new Audio('explosion.mp3');
+  
+	openModalBtn.addEventListener('click', function () {
+	  faqModal.style.display = 'block';
+	  startSound.play();
+	});
+  
+	closeModalBtn.addEventListener('click', function () {
+	  faqModal.style.display = 'none';
+	  stopSound.play();
+	});
+  
+	window.addEventListener('click', function (event) {
+	  if (event.target === faqModal) {
+		faqModal.style.display = 'none';
+		stopSound.play();
+	  }
+	});
+  });
+  
