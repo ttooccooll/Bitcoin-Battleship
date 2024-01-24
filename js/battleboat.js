@@ -25,6 +25,7 @@ const splashSound = new Audio("splash.mp3");
 const exSound = new Audio("explosion.mp3");
 const startSound = new Audio("start.mp3");
 exSound.volume = 0.3;
+const hupSound = new Audio("hup.mp3");
 
 // TODO: Make this better OO code. CONST.AVAILABLE_SHIPS should be an array
 //       of objects rather than than two parallel arrays. Or, a better
@@ -388,6 +389,7 @@ Game.prototype.restartGame = function(e) {
 // Debugging function used to place all ships and just start
 Game.prototype.placeRandomly = function(e){
 	startSound.play();
+	hupSound.play();
 	e.target.removeEventListener(e.type, arguments.callee);
 	e.target.self.humanFleet.placeShipsRandomly();
 	e.target.self.readyToPlay = true;
