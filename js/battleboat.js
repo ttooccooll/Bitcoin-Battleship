@@ -916,8 +916,6 @@ Tutorial.prototype.nextStep = function() {
 			this.showTutorial = false;
 			localStorage.setItem('showTutorial', false);
 			break;
-		default:
-			break;
 	}
 };
 
