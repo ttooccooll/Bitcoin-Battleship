@@ -101,11 +101,17 @@ Stats.prototype.syncStats = function() {
 };
 // Updates the sidebar display with the current statistics
 Stats.prototype.updateStatsSidebar = function() {
-	var elWinPercent = document.getElementById('stats-wins');
-	var elAccuracy = document.getElementById('stats-accuracy');
-	elWinPercent.innerHTML = this.gamesWon + " of " + this.gamesPlayed;
-	elAccuracy.innerHTML = Math.round((100 * this.totalHits / this.totalShots) || 0) + "%";
+    var elWinPercent = document.getElementById('stats-wins');
+    var elAccuracy = document.getElementById('stats-accuracy');
+    
+    elWinPercent.innerHTML = this.gamesWon + " of " + this.gamesPlayed;
+
+    // Display accuracy with three decimal places
+    elAccuracy.innerHTML = (this.totalShots > 0) ?
+        (Math.round((1000 * this.totalHits / this.totalShots) || 0) / 10).toFixed(3) + "%" :
+        "0.000%";
 };
+
 // Reset all game vanity statistics to zero. Doesn't reset your uuid.
 Stats.prototype.resetStats = function(e) {
 	// Skip tracking stats until the end of the current game or else
