@@ -21,11 +21,11 @@ CONST.TYPE_SHIP = 1; // 1 = undamaged ship
 CONST.TYPE_MISS = 2; // 2 = water with a cannonball in it (missed shot)
 CONST.TYPE_HIT = 3; // 3 = damaged ship (hit shot)
 CONST.TYPE_SUNK = 4; // 4 = sunk ship
-const splashSound = new Audio("splash.mp3");
 const exSound = new Audio("explosion.mp3");
 const startSound = new Audio("start.mp3");
 exSound.volume = 0.3;
 const hupSound = new Audio("hup.mp3");
+const hupEightBitSound = new Audio("hup8bit.mp3");
 
 // TODO: Make this better OO code. CONST.AVAILABLE_SHIPS should be an array
 //       of objects rather than than two parallel arrays. Or, a better
@@ -62,12 +62,16 @@ Stats.prototype.wonGame = function() {
 	this.gamesWon++;
 	if (!DEBUG_MODE) {
 		gtag('event', 'gameOver', {'win': this.uuid});
+		hupSound.pause();
+		hupEightBitSound.play();
 	}
 };
 Stats.prototype.lostGame = function() {
 	this.gamesPlayed++;
 	if (!DEBUG_MODE) {
 		gtag('event', 'gameOver', {'lose': this.uuid});
+		hupSound.pause();
+		hupEightBitSound.play();
 	}
 };
 // Saves the game statistics to localstorage, also uploads where the user placed
@@ -394,6 +398,7 @@ Game.prototype.restartGame = function(e) {
 };
 // Debugging function used to place all ships and just start
 Game.prototype.placeRandomly = function(e){
+	hupEightBitSound.pause();
 	startSound.play();
 	hupSound.play();
 	e.target.removeEventListener(e.type, arguments.callee);
@@ -1352,6 +1357,7 @@ document.addEventListener('DOMContentLoaded', function () {
   
 	openModalBtn.addEventListener('click', function () {
 	  faqModal.style.display = 'block';
+	  hupSound.pause();
 	  startSound.play();
 	});
   
@@ -1367,4 +1373,3 @@ document.addEventListener('DOMContentLoaded', function () {
 	  }
 	});
   });
-  
