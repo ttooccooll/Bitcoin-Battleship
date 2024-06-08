@@ -428,4 +428,8 @@ button {
 	#roster-sidebar, #restart-sidebar {
 		position: fixed;
 	}
+	.modal-content {
+		height: 95%;
+		width: 95%;
+	}
 }
