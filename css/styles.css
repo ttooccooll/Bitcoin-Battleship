@@ -417,7 +417,7 @@ button {
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		transform: scale(0.27);
+		transform: scale(0.3);
 	}
 	.grid-container {
 		font-size: xx-large;
