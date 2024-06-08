@@ -431,5 +431,6 @@ button {
 	.modal-content {
 		height: 95%;
 		width: 95%;
+		overflow: scroll;
 	}
 }
