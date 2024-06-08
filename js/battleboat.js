@@ -219,7 +219,7 @@ Game.prototype.shoot = function(x, y, targetPlayer) {
 		// update the board/grid
 		targetGrid.updateCell(x, y, 'hit', targetPlayer);
 		const newExSound = new Audio("explosion.mp3");
-		newExSound.volume = 0.3;
+		newExSound.volume = 0.2;
 		newExSound.play();
 		// IMPORTANT: This function needs to be called _after_ updating the cell to a 'hit',
 		// because it overrides the CSS class to 'sunk' if we find that the ship was sunk
