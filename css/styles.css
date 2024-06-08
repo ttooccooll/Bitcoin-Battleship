@@ -374,3 +374,58 @@ button {
 	cursor: pointer;
   }
   
+@media screen and (max-width: 1295px) {
+	.game-container {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+        transform: scale(0.5);
+		transform-origin: center;
+	}
+	.container {
+		width: 95%;
+		text-align: center;
+		margin: 20px auto 100px auto;
+		padding: 0;
+	}
+	#stats-sidebar {
+		margin-right: -100px;
+	}
+	#roster-sidebar, #restart-sidebar {
+		margin-left: -100px;
+	}
+	.grid-container {
+		margin-left: 0px;
+	}
+	.instructions {
+		margin-bottom: 0;
+	}
+}
+
+@media screen and (max-width: 650px) {
+	html, body {
+		background-size: contain;
+		background-repeat: repeat;
+		background-position: center;
+		padding: 0;
+	}
+	.game-container {
+		margin-top: -375px;
+		margin-bottom: -375px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		transform: scale(0.27);
+	}
+	.grid-container {
+		font-size: xx-large;
+	}
+	#stats-sidebar {
+		position: fixed;
+	}
+	#roster-sidebar, #restart-sidebar {
+		position: fixed;
+	}
+}
